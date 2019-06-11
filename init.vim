@@ -188,28 +188,6 @@ let NERDTreeQuitOnOpen=1
 " Disable right hand scroll bar
 set guioptions-=r
 
-" YCM
-let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-
-let g:clang_format#style_options = {
-    \ "AccessModifierOffset" : -2,
-    \ "AlignEscapedNewlinesLeft" : "true",
-    \ "AlignTrailingComments" : "true",
-    \ "AllowShortFunctionsOnASingleLine" : "true",
-    \ "AllowShortIfStatementsOnASingleLine" : "true",
-    \ "AllowShortCaseLabelsOnASingleLine" : "true",
-    \ "AllowShortBlocksOnASingleLine" : "true",
-    \ "AllowShortLoopsOnASingleLine" : "true",
-    \ "Standard" : "C++11",
-    \ "BreakBeforeBraces" : "Stroustrup",
-    \ "ColumnLimit" : 80,
-    \ "ConstructorInitializerAllOnOneLineOrOnePerLine" : "true",
-    \ "IndentPPDirectives" : "AfterHash",
-    \ "IndentWidth" : 2}
-
-let g:ycm_autoclose_preview_window_after_completion=1
-map <leader>g :YcmCompleter GoToDefinitionElseDeclaration<CR>
-
 " map to <Leader>cf in C++ code
 autocmd FileType c,cpp,objc nnoremap <buffer><Leader>cf :<C-u>ClangFormat<CR>
 autocmd FileType c,cpp,objc vnoremap <buffer><Leader>cf :ClangFormat<CR>
@@ -229,10 +207,7 @@ set hidden
 
 let g:LanguageClient_serverCommands = {
     \ 'rust': ['~/.cargo/bin/rustup', 'run', 'stable', 'rls'],
-    \ 'javascript': ['/usr/local/bin/javascript-typescript-stdio'],
-    \ 'javascript.jsx': ['tcp://127.0.0.1:2089'],
-    \ 'python': ['/usr/local/bin/pyls'],
-    \ 'ruby': ['~/.rbenv/shims/solargraph', 'stdio'],
+    \ 'python': ['~/.local/bin/pyls'],
     \ }
 
 function SetLSPShortcuts()
@@ -250,7 +225,7 @@ endfunction()
 
 augroup LSP
   autocmd!
-  autocmd FileType rust call SetLSPShortcuts()
+  autocmd FileType rust,python call SetLSPShortcuts()
 augroup END
 
 set signcolumn=yes
