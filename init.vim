@@ -7,11 +7,8 @@ Plug 'rust-lang/rust.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'tpope/vim-commentary'
 Plug 'easymotion/vim-easymotion'
-Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-surround'
 Plug 'jeetsukumaran/vim-buffergator'
-Plug 'Valloric/YouCompleteMe'
-Plug 'rhysd/vim-clang-format'
 Plug 'jiangmiao/auto-pairs'
 Plug 'vim-scripts/indentpython.vim'
 Plug 'nvie/vim-flake8'
@@ -32,9 +29,30 @@ Plug 'autozimu/LanguageClient-neovim', {
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/echodoc.vim'
-Plug 'rakr/vim-one'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'sonph/onehalf', { 'rtp': 'vim/' }
+Plug 'morhetz/gruvbox'
+
+" assuming you're using vim-plug: https://github.com/junegunn/vim-plug
+Plug 'ncm2/ncm2'
+Plug 'roxma/nvim-yarp'
+
+" enable ncm2 for all buffers
+autocmd BufEnter * call ncm2#enable_for_buffer()
+
+" IMPORTANT: :help Ncm2PopupOpen for more information
+set completeopt=noinsert,menuone,noselect
+
+" NOTE: you need to install completion sources to get completions. Check
+" our wiki page for a list of sources: https://github.com/ncm2/ncm2/wiki
+Plug 'ncm2/ncm2-bufword'
+Plug 'ncm2/ncm2-path'
 
 call plug#end()
+
+" Use <TAB> to select the popup menu:
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 
 " Fat fingers
 cabbrev Q quit
@@ -64,10 +82,7 @@ imap <up> <C-O>gk
 set smartindent
 set nolist                        " breaks soft wrap :(
 
-colorscheme one
-set background=dark " for the dark version
-" set background=light " for the light version
-let g:airline_theme='one'
+colorscheme gruvbox
 
 " Rest based on http://git.wincent.com/wincent.git/blob_plain/HEAD:/.vimrc
 set nocompatible                  " just in case system-wide vimrc has set this otherwise
