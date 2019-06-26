@@ -237,3 +237,5 @@ let g:echodoc#type = 'signature'
 if executable('rg')
   let g:ackprg = 'rg --vimgrep'
 endif
+
+au InsertLeave * set nopaste
