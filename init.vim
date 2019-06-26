@@ -1,6 +1,6 @@
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'rking/ag.vim'
+Plug 'mileszs/ack.vim'
 Plug 'kien/ctrlp.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'rust-lang/rust.vim'
@@ -233,3 +233,7 @@ set signcolumn=yes
 set cmdheight=2
 let g:echodoc#enable_at_startup=1
 let g:echodoc#type = 'signature'
+
+if executable('rg')
+  let g:ackprg = 'rg --vimgrep'
+endif
