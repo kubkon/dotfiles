@@ -3,5 +3,8 @@
     "list.source.grep.args": [
         "--smart-case"
     ],
-    "suggest.triggerAfterInsertEnter": true
+    "suggest.triggerAfterInsertEnter": true,
+    "coc.preferences.formatOnSaveFiletypes": [
+        "rust"
+    ]
 }
