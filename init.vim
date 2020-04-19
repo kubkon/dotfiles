@@ -308,6 +308,10 @@ command! -bang -nargs=? -complete=dir Files
   \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 nmap <Leader><Space> :Clap buffers<CR>
+" We need this to actually close Clap in the event we pull out prematurely and
+" just wanna exit.
+autocmd FileType clap_input inoremap <silent> <buffer> <Esc> <Esc>:call clap#handler#exit()<CR>
+
 nmap <Leader>f :Files<CR>
 nmap <Leader>g :CocList --auto-preview --interactive grep<CR>
 nmap <Leader>s :CocList --auto-preview --interactive symbols<CR>
