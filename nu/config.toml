@@ -1,0 +1,13 @@
+path = [
+  "/usr/local/opt/llvm/bin",
+  "/Users/kubkon/.cargo/bin",
+  "/Users/kubkon/.fzf/bin",
+  "/Library/TeX/texbin",
+  "/usr/local/bin",
+  "/usr/bin", 
+  "/bin",
+  "/usr/sbin",
+  "/sbin"
+]
+use_starship = true
+
