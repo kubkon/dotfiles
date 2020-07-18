@@ -25,6 +25,10 @@
                     "directory": "/tmp/ccls"
                 }
             }
+        },
+        "zls": {
+            "command": "zls",
+            "filetypes": ["zig"]
         }
     }
 }
