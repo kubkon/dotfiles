@@ -317,3 +317,4 @@ nmap <Leader>f :Files<CR>
 nmap <Leader>g :CocList --auto-preview --interactive grep<CR>
 nmap <Leader>s :CocList --auto-preview --interactive symbols<CR>
 nnoremap <silent> <space>w  :exe 'CocList -I --auto-preview --interactive --input='.expand('<cword>').' grep'<CR>
+let g:zig_fmt_autosave = 0
