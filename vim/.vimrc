@@ -79,6 +79,7 @@ set cc=120
 set switchbuf=useopen,usetab
 set splitbelow
 set splitright
+set relativenumber
 
 " Fix some weird problem with $PATH mangling
 set shell=/bin/bash
