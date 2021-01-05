@@ -38,5 +38,6 @@
       "typescript",
       "typescriptreact"
     ],
-    "prettier.disableSuccessMessage": true
+    "prettier.disableSuccessMessage": true,
+    "coc.preferences.formatOnSaveFiletypes": ["typescript", "typescriptreact"]
 }

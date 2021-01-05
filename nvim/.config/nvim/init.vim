@@ -21,12 +21,11 @@ Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 Plug 'morhetz/gruvbox'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'ziglang/zig.vim'
-Plug 'pangloss/vim-javascript'
-Plug 'leafgarland/typescript-vim'
+Plug 'HerringtonDarkholme/yats.vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'peitalin/vim-jsx-typescript'
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-Plug 'jparise/vim-graphql'
+" Plug 'peitalin/vim-jsx-typescript'
+" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+" Plug 'jparise/vim-graphql'
 
 call plug#end()
 
