@@ -27,8 +27,17 @@
             }
         },
         "zls": {
-            "command": "zls",
+            "command": "/Users/kubkon/dev/zls/zig-cache/bin/zls",
             "filetypes": ["zig"]
         }
-    }
+    },
+    "eslint.autoFixOnSave": true,
+    "eslint.filetypes": [
+      "javascript",
+      "javascriptreact",
+      "typescript",
+      "typescriptreact"
+    ],
+    "prettier.disableSuccessMessage": true,
+    "coc.preferences.formatOnSaveFiletypes": ["typescript", "typescriptreact"]
 }

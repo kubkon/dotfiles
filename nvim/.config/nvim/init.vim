@@ -21,6 +21,11 @@ Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 Plug 'morhetz/gruvbox'
 Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() } }
 Plug 'ziglang/zig.vim'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'MaxMEllon/vim-jsx-pretty'
+" Plug 'peitalin/vim-jsx-typescript'
+" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+" Plug 'jparise/vim-graphql'
 
 call plug#end()
 
@@ -319,3 +324,22 @@ nmap <Leader>g :CocList --auto-preview --interactive grep<CR>
 nmap <Leader>s :CocList --auto-preview --interactive symbols<CR>
 nnoremap <silent> <space>w  :exe 'CocList -I --auto-preview --interactive --input='.expand('<cword>').' grep'<CR>
 let g:zig_fmt_autosave = 0
+
+" Dealing with large JSX and TSX files.
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+
+" Global CoC extensions we always want up and running.
+let g:coc_global_extensions = [
+  \ 'coc-tsserver',
+  \ 'coc-pairs',
+  \ 'coc-lists'
+  \ ]
+
+" If the current project can handle ESlint and Prettier, then enable.
+if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+  let g:coc_global_extensions += ['coc-prettier']
+endif
+if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+  let g:coc_global_extensions += ['coc-eslint']
+endif
