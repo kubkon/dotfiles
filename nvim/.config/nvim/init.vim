@@ -86,8 +86,7 @@ set splitbelow
 set splitright
 set relativenumber
 
-" Fix some weird problem with $PATH mangling
-set shell=/bin/bash
+set shell=/bin/zsh
 
 " statusline
 " cf the default statusline: %<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P
