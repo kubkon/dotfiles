@@ -31,6 +31,7 @@
         "cpu",
         "temperature",
         "custom/keyboard-layout",
+        "pulseaudio",
         "battery",
         "tray",
         "clock#date",
@@ -64,7 +65,7 @@
 
     "clock#time": {
         "interval": 1,
-        "format": "{:%H:%M:%S}",
+        "format": "{:%H:%M}",
         "tooltip": false
     },
 
@@ -127,8 +128,8 @@
         "format-icons": {
             "1:www": "龜", // Icon: firefox-browser
             "2:mail": "", // Icon: mail
-            "3:editor": "", // Icon: code
-            "4:terminals": "", // Icon: terminal
+            "3:terminals": "", // Icon: terminal
+            "4:editor": "", // Icon: code
             "5:portal": "", // Icon: terminal
             "urgent": "",
             "focused": "",
@@ -136,22 +137,22 @@
         }
     },
 
-    //"pulseaudio": {
-    //    //"scroll-step": 1,
-    //    "format": "{icon}  {volume}%",
-    //    "format-bluetooth": "{icon}  {volume}%",
-    //    "format-muted": "",
-    //    "format-icons": {
-    //        "headphones": "",
-    //        "handsfree": "",
-    //        "headset": "",
-    //        "phone": "",
-    //        "portable": "",
-    //        "car": "",
-    //        "default": ["", ""]
-    //    },
-    //    "on-click": "pavucontrol"
-    //},
+    "pulseaudio": {
+        //"scroll-step": 1,
+        "format": "{icon}  {volume}%",
+        "format-bluetooth": "{icon}  {volume}%",
+        "format-muted": "",
+        "format-icons": {
+            "headphones": "",
+            "handsfree": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["", ""]
+        },
+        "on-click": "pavucontrol"
+    },
 
     "temperature": {
       "critical-threshold": 80,

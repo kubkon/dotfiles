@@ -106,7 +106,6 @@ source $ZSH/oh-my-zsh.sh
 eval "$(starship init zsh)"
 
 export MOZ_ENABLE_WAYLAND=1
-export XKB_DEFAULT_OPTIONS=caps:escape
 
 if [ -z $DISPLAY  ] && [ "$(tty)" = "/dev/tty1"  ]; then
     exec sway
