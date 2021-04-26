@@ -246,6 +246,8 @@ bindsym $mod+Ctrl+l exec $screenlock
 gaps inner 5
 default_border pixel 3
 
+exec udiskie --tray
+
 #
 # Status Bar:
 #
