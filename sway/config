@@ -245,6 +245,7 @@ bindsym $mod+Ctrl+l exec $screenlock
 # Personal settings
 gaps inner 5
 default_border pixel 3
+hide_edge_borders smart
 
 exec udiskie --tray
 
