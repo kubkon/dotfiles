@@ -1,0 +1,13 @@
+[user]
+	name = Jakub Konka
+	email = kubkon@jakubkonka.com
+[core]
+  excludesfile = ~/.gitignore
+[pull]
+	ff = only
+[init]
+	defaultBranch = main
+[merge]
+  conflictstyle = diff3
+  tool = vimdiff
+  prompt = false
