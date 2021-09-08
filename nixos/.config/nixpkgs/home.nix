@@ -25,6 +25,7 @@
     htop
     discord
     obs-studio
+    file
   ];
 
   programs = {
