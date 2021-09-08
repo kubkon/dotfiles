@@ -27,7 +27,6 @@
     obs-studio
     file
     chromium
-    rustup
   ];
 
   programs = {
