@@ -16,6 +16,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  boot.extraModulePackages = with config.boot.kernelPackages; [ tuxedo-keyboard ];
+  boot.kernelModules = [ "tuxedo_keyboard" ];
+
   networking.hostName = "kurosaki"; # Define your hostname.
   networking.networkmanager.enable = true;
   #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
