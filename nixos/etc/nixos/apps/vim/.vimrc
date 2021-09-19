@@ -56,6 +56,8 @@ set splitbelow
 set splitright
 set relativenumber
 
+autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+
 " set shell=/bin/zsh
 
 " statusline
