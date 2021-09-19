@@ -30,7 +30,6 @@ let myVim = vim_configurable.customize {
           "vim-commentary"
           "vim-easymotion"
           "vim-surround"
-          "auto-pairs"
           "undotree"
           "vim-clap"
           "targets-vim"
