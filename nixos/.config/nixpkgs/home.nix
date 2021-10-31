@@ -30,7 +30,28 @@
   ];
 
   programs = {
-    bash.enable = true;
+    zsh = {
+      enable = true;
+      enableAutosuggestions = true;
+      initExtra = "export PATH=$PATH:~/bin";
+    };
+
+    starship = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    tmux = {
+      enable = true;
+      terminal = "screen-256color";
+      historyLimit = 5000;
+      escapeTime = 0;
+    };
 
     git = {
       enable = true;
@@ -46,18 +67,11 @@
           prompt = false;
         };
       };
-    };
-
-    fzf = {
-      enable = true;
-      enableBashIntegration = true;
-    };
-
-    tmux = {
-      enable = true;
-      terminal = "screen-256color";
-      historyLimit = 5000;
-      escapeTime = 0;
+      ignores = [
+        "*.swp"
+        "zig-cache"
+        "zig-out"
+      ];
     };
   };
 }

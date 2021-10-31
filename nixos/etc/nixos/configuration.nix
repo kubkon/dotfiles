@@ -56,6 +56,10 @@
   services.xserver.xkbOptions = "grp:alt_space_toggle,caps:escape";
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
+  };
 
   # Enable sound
   sound.enable = false;
@@ -78,10 +82,13 @@
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput.enable = true;
 
+  programs.zsh.enable = true;
+
   users.mutableUsers = false;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kubkon = {
     isNormalUser = true;
+    shell = pkgs.zsh;
     extraGroups = [ "wheel" "networkmanager" ];
     hashedPassword = "deadbeef";
     openssh.authorizedKeys.keys = [
@@ -102,6 +109,10 @@
     ripgrep
     fzf
     libreoffice
+    gimp
+    signal-desktop
+    zsh
+    starship
   ];
 
   fonts.fonts = with pkgs; [
