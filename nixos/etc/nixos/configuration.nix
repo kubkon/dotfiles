@@ -20,8 +20,8 @@
   boot.kernelModules = [ "tuxedo_keyboard" ];
 
   networking.hostName = "kurosaki"; # Define your hostname.
+  networking.wireless.enable = false;
   networking.networkmanager.enable = true;
-  #networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Set your time zone.
   time.timeZone = "Europe/Warsaw";
@@ -101,10 +101,9 @@
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
-    firefox
     thunderbird
+    firefox
     tmux
-    gnome3.gnome-tweaks
     nodejs
     ripgrep
     fzf

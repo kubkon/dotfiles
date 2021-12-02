@@ -23,17 +23,18 @@
 
   home.packages = with pkgs; [
     htop
-    discord
     obs-studio
+    discord
     file
     chromium
+    vlc
   ];
 
   programs = {
     zsh = {
       enable = true;
       enableAutosuggestions = true;
-      initExtra = "export PATH=$PATH:~/bin";
+      # initExtra = "export PATH=$PATH:~/bin";
     };
 
     starship = {
