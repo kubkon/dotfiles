@@ -84,7 +84,7 @@ set splitbelow
 set splitright
 set relativenumber
 
-autocmd FileType * setlocal formatoptions-=c formatoptions-=r formatoptions-=o
+autocmd FileType * setlocal formatoptions=tcroql
 
 " set shell=/bin/zsh
 
