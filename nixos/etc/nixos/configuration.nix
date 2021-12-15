@@ -112,6 +112,7 @@
     signal-desktop
     zsh
     starship
+    kitty
   ];
 
   fonts.fonts = with pkgs; [
