@@ -29,6 +29,7 @@
     chromium
     vlc
     skype
+    wineWowPackages.stable
   ];
 
   programs = {
@@ -101,6 +102,11 @@ selection_foreground #202020
         "*.swp"
         "zig-cache"
         "zig-out"
+        ".cache"
+        ".ccls"
+        ".ccls-cache"
+        "compile_commands.json"
+        "shell.nix"
       ];
     };
   };
