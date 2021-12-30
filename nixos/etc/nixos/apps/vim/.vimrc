@@ -1,3 +1,7 @@
+" Kitty terminal emulator hotfix
+let &t_ut=''
+
+"
 " suppress the annoying 'match x of y', 'The only match' and 'Pattern not
 " found' messages
 set shortmess+=c
@@ -194,6 +198,14 @@ if executable('zls')
         \ 'cmd': {server_info->['zls']},
         \ 'allowlist': ['zig'],
         \ })
+endif
+
+if executable('ccls')
+  au User lsp_setup call lsp#register_server({
+      \ 'name': 'ccls',
+      \ 'cmd': {server_info->['ccls']},
+      \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp'],
+      \ })
 endif
 
 function! s:on_lsp_buffer_enabled() abort
