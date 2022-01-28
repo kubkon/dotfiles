@@ -18,6 +18,8 @@
 
   boot.extraModulePackages = with config.boot.kernelPackages; [ tuxedo-keyboard ];
   boot.kernelModules = [ "tuxedo_keyboard" ];
+  boot.supportedFilesystems = [ "ntfs" "jfs" ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
 
   networking.hostName = "kurosaki"; # Define your hostname.
   networking.wireless.enable = false;
@@ -46,10 +48,26 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  services.xserver.videoDrivers = [ "amdgpu" ];
+  services.xserver.deviceSection = ''
+    Option "DRI" "2"
+    Option "TearFree" "true"
+  '';
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+  # services.xserver.displayManager.gdm.enable = true;
+  # services.xserver.desktopManager.gnome.enable = true;
+
+  # Enable i3wm with xfce
+  services.xserver.windowManager.i3.enable = true;
+  services.xserver.desktopManager = {
+    xterm.enable = false;
+    xfce = {
+      enable = true;
+      noDesktop = true;
+      enableXfwm = false;
+    };
+  };
 
   # Configure keymap in X11
   services.xserver.layout = "us,pl";
@@ -62,17 +80,18 @@
   };
 
   # Enable sound
-  sound.enable = false;
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa = {
-      enable = true;
-      support32Bit = true;
-    };
-    pulse.enable = true;
-  };
+  nixpkgs.config.pulseaudio = true;
+  sound.enable = true;
+  hardware.pulseaudio.enable = true;
+  # security.rtkit.enable = true;
+  # services.pipewire = {
+  #   enable = true;
+  #   alsa = {
+  #     enable = true;
+  #     support32Bit = true;
+  #   };
+  #   pulse.enable = true;
+  # };
 
   # AMD Graphics
   hardware.opengl.extraPackages = [
@@ -98,8 +117,9 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
+  nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim
     wget
     thunderbird
     firefox
@@ -113,6 +133,18 @@
     zsh
     starship
     kitty
+    i3lock
+    lxappearance
+    autorandr
+    htop
+    obs-studio
+    discord
+    file
+    chromium
+    vlc
+    skype
+    wineWowPackages.stable
+    slack
   ];
 
   fonts.fonts = with pkgs; [
