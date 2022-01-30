@@ -99,7 +99,12 @@
   ];
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  services.xserver.libinput = {
+    enable = true;
+    touchpad = {
+      naturalScrolling = true;
+    };
+  };
 
   programs.zsh.enable = true;
 
@@ -145,6 +150,7 @@
     skype
     wineWowPackages.stable
     slack
+    flameshot
   ];
 
   fonts.fonts = with pkgs; [
