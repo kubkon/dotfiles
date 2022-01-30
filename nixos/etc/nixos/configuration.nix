@@ -139,6 +139,7 @@
     starship
     kitty
     i3lock
+    i3lock-fancy-rapid
     lxappearance
     autorandr
     htop
@@ -151,6 +152,7 @@
     wineWowPackages.stable
     slack
     flameshot
+    xss-lock
   ];
 
   fonts.fonts = with pkgs; [
