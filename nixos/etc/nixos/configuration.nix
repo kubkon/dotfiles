@@ -50,7 +50,6 @@
   services.xserver.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
   services.xserver.deviceSection = ''
-    Option "DRI" "2"
     Option "TearFree" "true"
   '';
 
