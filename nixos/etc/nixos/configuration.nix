@@ -152,6 +152,7 @@
     slack
     flameshot
     xss-lock
+    signal-desktop
   ];
 
   fonts.fonts = with pkgs; [

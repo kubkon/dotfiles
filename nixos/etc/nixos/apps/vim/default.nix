@@ -57,14 +57,58 @@ let
             "onehalf"
             "gruvbox"
             "zig-vim"
+            "fugitive"
           ];
         }
       ];
     };
   };
+  myNvim = neovim.override {
+    configure = {
+      customRC = builtins.readFile ./init.vim;
+
+      packages.myPlugins = with pkgs.vimPlugins; {
+        start = [ 
+          ctrlp
+          vim-nix
+          nerdtree
+          nerdtree-git-plugin
+          vim-airline
+          vim-commentary
+          vim-easymotion
+          vim-surround
+          auto-pairs
+          undotree
+          vim-clap
+          targets-vim
+          vim-toml
+          fzf-vim
+          echodoc-vim
+          dracula-vim
+          onehalf
+          gruvbox
+          zig-vim
+          fugitive
+          (nvim-treesitter.withPlugins (_: tree-sitter.allGrammars))
+          nvim-treesitter-context
+          nvim-lspconfig
+          nvim-cmp
+          cmp-nvim-lsp
+          cmp_luasnip
+          luasnip
+        ];
+        opt = [];
+      };
+    };
+  };
 # include our customized vim package in systemPackages
 in { 
-  environment.systemPackages = with pkgs; [ myVim ]; 
+  nixpkgs.overlays = [
+    (import (builtins.fetchTarball {
+      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+    }))
+  ];
+  environment.systemPackages = with pkgs; [ myVim myNvim ]; 
   # set vim as default editor
   environment.variables = { EDITOR = "vim"; };
 }
