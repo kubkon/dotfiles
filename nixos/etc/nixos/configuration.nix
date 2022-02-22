@@ -153,6 +153,8 @@
     flameshot
     xss-lock
     signal-desktop
+    fd
+    lua
   ];
 
   fonts.fonts = with pkgs; [
