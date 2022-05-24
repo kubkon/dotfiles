@@ -5,7 +5,7 @@ with pkgs;
 
 # set the entire package as a local variable to include in environment.systemPackages
 let 
-  # unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
   customPlugins = {
     asyncomplete-lsp-vim = vimUtils.buildVimPlugin {
       name = "asyncomplete-lsp-vim";
@@ -75,11 +75,11 @@ let
       ];
     };
   };
-  myNvim = neovim.override {
+  myNvim = unstable.neovim.override {
     configure = {
       customRC = builtins.readFile ./init.vim;
 
-      packages.myPlugins = with pkgs.vimPlugins // customNvimPlugins; {
+      packages.myPlugins = with unstable.vimPlugins // customNvimPlugins; {
         start = [ 
           ctrlp
           vim-nix
@@ -114,6 +114,8 @@ let
           luasnip
           nightfox-nvim
           gruvbox-baby
+          vim-javascript
+          typescript-vim
         ];
         opt = [];
       };
@@ -121,11 +123,11 @@ let
   };
 # include our customized vim package in systemPackages
 in { 
-  nixpkgs.overlays = [
-    (import (builtins.fetchTarball {
-      url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
-    }))
-  ];
+  # nixpkgs.overlays = [
+  #   (import (builtins.fetchTarball {
+  #     url = https://github.com/nix-community/neovim-nightly-overlay/archive/master.tar.gz;
+  #   }))
+  # ];
   environment.systemPackages = with pkgs; [ myVim myNvim ]; 
   # set vim as default editor
   environment.variables = { EDITOR = "vim"; };
