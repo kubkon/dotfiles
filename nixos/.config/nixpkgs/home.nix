@@ -19,51 +19,19 @@
   # You can update Home Manager without changing this value. See
   # the Home Manager release notes for a list of state version
   # changes in each release.
-  home.stateVersion = "21.05";
-
-  home.packages = with pkgs; [
-    htop
-    obs-studio
-    discord
-    file
-    chromium
-    vlc
-    skype
-    wineWowPackages.stable
-  ];
+  home.stateVersion = "21.11";
 
   programs = {
     kitty = {
       enable = true;
       font.name = "DejaVuSansMono Nerd Font Mono";
       font.size = 10;
-      extraConfig = ''
-background            #202020
-foreground            #d0d0d0
-cursor                #d0d0d0
-selection_background  #303030
-color0                #151515
-color8                #505050
-color1                #ac4142
-color9                #ac4142
-color2                #7e8d50
-color10               #7e8d50
-color3                #e5b566
-color11               #e5b566
-color4                #6c99ba
-color12               #6c99ba
-color5                #9e4e85
-color13               #9e4e85
-color6                #7dd5cf
-color14               #7dd5cf
-color7                #d0d0d0
-color15               #f5f5f5
-selection_foreground #202020
-      '';
+      extraConfig = builtins.readFile ./default.conf ;
     };
     zsh = {
       enable = true;
       enableAutosuggestions = true;
+      defaultKeymap = "emacs";
       # initExtra = "export PATH=$PATH:~/bin";
     };
 

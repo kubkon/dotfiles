@@ -81,7 +81,24 @@
   # Enable sound
   nixpkgs.config.pulseaudio = true;
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio = {
+    enable = true;
+    extraModules = [ pkgs.pulseaudio-modules-bt ];
+    package = pkgs.pulseaudioFull;
+  };
+  hardware.bluetooth = {
+    enable = true;
+    settings = {
+      Policy = {
+        AutoEnable = true;
+      };
+      General = {
+        Enable = "Source,Sink,Media,Socket";
+      };
+    };
+  };
+  services.blueman.enable = true;
+
   # security.rtkit.enable = true;
   # services.pipewire = {
   #   enable = true;
@@ -155,6 +172,10 @@
     signal-desktop
     fd
     lua
+    nodePackages.typescript
+    nodePackages.typescript-language-server
+    nodePackages.eslint
+    nodePackages.prettier
   ];
 
   fonts.fonts = with pkgs; [
