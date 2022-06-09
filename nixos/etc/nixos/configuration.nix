@@ -140,6 +140,8 @@
   # $ nix search wget
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = with pkgs; [
+    man-pages
+    man-pages-posix
     vim
     wget
     thunderbird
@@ -211,5 +213,7 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "21.05"; # Did you read the comment?
+
+  documentation.dev.enable = true;
 }
 
