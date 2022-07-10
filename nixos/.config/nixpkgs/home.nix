@@ -21,6 +21,13 @@
   # changes in each release.
   home.stateVersion = "21.11";
 
+  xsession = {
+    enable = true;
+    initExtra = ''
+      xset r rate 190 35
+    '';
+  };
+
   programs = {
     kitty = {
       enable = true;
@@ -28,10 +35,12 @@
       font.size = 10;
       extraConfig = builtins.readFile ./default.conf ;
     };
+
     zsh = {
       enable = true;
       enableAutosuggestions = true;
       defaultKeymap = "emacs";
+      enableSyntaxHighlighting = true;
       # initExtra = "export PATH=$PATH:~/bin";
     };
 
