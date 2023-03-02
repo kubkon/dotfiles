@@ -16,10 +16,21 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.extraModulePackages = with config.boot.kernelPackages; [ tuxedo-keyboard ];
-  boot.kernelModules = [ "tuxedo_keyboard" ];
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    tuxedo-keyboard
+    rr-zen_workaround
+  ];
+  boot.kernelModules = [
+    "tuxedo_keyboard" 
+    "zen_workaround"
+  ];
   boot.supportedFilesystems = [ "ntfs" "jfs" ];
   boot.initrd.kernelModules = [ "amdgpu" ];
+
+  # RR the perf!
+  boot.kernel.sysctl = {
+    "kernel.perf_event_paranoid" = 1;
+  };
 
   networking.hostName = "kurosaki"; # Define your hostname.
   networking.wireless.enable = false;
@@ -47,11 +58,13 @@
   # };
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
-  services.xserver.videoDrivers = [ "amdgpu" ];
-  services.xserver.deviceSection = ''
-    Option "TearFree" "true"
-  '';
+  services.xserver = {
+    enable = true;
+    videoDrivers = [ "amdgpu" ];
+    deviceSection = ''
+      Option "TearFree" "true"
+    '';
+  };
 
   # Enable the GNOME Desktop Environment.
   # services.xserver.displayManager.gdm.enable = true;
@@ -69,8 +82,9 @@
   };
 
   # Configure keymap in X11
-  services.xserver.layout = "us,pl";
-  services.xserver.xkbOptions = "grp:alt_space_toggle,caps:escape";
+  services.xserver.layout = "us,us";
+  services.xserver.xkbVariant = "colemak,";
+  services.xserver.xkbOptions = "grp:win_space_toggle,caps:escape";
   # Enable CUPS to print documents.
   services.printing.enable = true;
   services.avahi = {
@@ -83,7 +97,7 @@
   sound.enable = true;
   hardware.pulseaudio = {
     enable = true;
-    extraModules = [ pkgs.pulseaudio-modules-bt ];
+    # extraModules = [ pkgs.pulseaudio-modules-bt ];
     package = pkgs.pulseaudioFull;
   };
   hardware.bluetooth = {
@@ -166,7 +180,7 @@
     file
     chromium
     vlc
-    skype
+    skypeforlinux
     wineWowPackages.stable
     slack
     flameshot
@@ -178,6 +192,10 @@
     nodePackages.typescript-language-server
     nodePackages.eslint
     nodePackages.prettier
+    libimobiledevice
+    ifuse
+    vscode
+    mullvad-vpn
   ];
 
   fonts.fonts = with pkgs; [
@@ -194,11 +212,16 @@
 
   # List services that you want to enable:
 
+  services.mullvad-vpn.enable = true;
+
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
     passwordAuthentication = false;
   };
+
+  # Enable iPhone tethering
+  services.usbmuxd.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
