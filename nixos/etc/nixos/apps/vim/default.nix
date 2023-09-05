@@ -32,48 +32,43 @@ let
     # whatever name you want to use vim by
     # vim recommened 
     name = "vim";
-    
-    vimrcConfig = {
-      
-      # import .vimrc
-      customRC = builtins.readFile ./.vimrc;
-      
-      # make plugins avaliable to vam
-      vam.knownPlugins = pkgs.vimPlugins // customPlugins;
-      
-      # declare plugins to use
-      vam.pluginDictionaries = [
-        { 
-          names = [
-            "vim-nix"
-            "ctrlp"
-            "nerdtree"
-            "nerdtree-git-plugin"
-            "vim-airline"
-            "vim-commentary"
-            "vim-easymotion"
-            "vim-surround"
-            "auto-pairs"
-            "undotree"
-            "vim-clap"
-            "targets-vim"
-            "async-vim"
-            "asyncomplete-vim"
-            "vim-lsp"
-            "asyncomplete-lsp-vim"
-            "vim-toml"
-            "fzfWrapper"
-            "fzf-vim"
-            "echodoc-vim"
-            "dracula-vim"
-            "onehalf"
-            "gruvbox"
-            "zig-vim"
-            "fugitive"
-          ];
-        }
-      ];
+
+    vimrcConfig.packages.myVimPackage = with pkgs.vimPlugins; {
+      start = [ asyncomplete-lsp-vim ];
     };
+
+    vimrcConfig.packages.myplugins = with pkgs.vimPlugins; {
+      start = [
+        vim-nix
+        ctrlp
+        nerdtree
+        nerdtree-git-plugin
+        vim-airline
+        vim-commentary
+        vim-easymotion
+        vim-surround
+        auto-pairs
+        undotree
+        vim-clap
+        targets-vim
+        async-vim
+        asyncomplete-vim
+        vim-lsp
+        asyncomplete-lsp-vim
+        vim-toml
+        fzfWrapper
+        fzf-vim
+        echodoc-vim
+        dracula-vim
+        onehalf
+        gruvbox
+        zig-vim
+        fugitive
+      ];
+      opt = [];
+    };
+    
+    vimrcConfig.customRC = builtins.readFile ./.vimrc;
   };
   myNvim = unstable.neovim.override {
     configure = {
