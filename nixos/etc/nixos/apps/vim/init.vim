@@ -17,7 +17,7 @@ vnorem // y/<c-r>"<cr>
 " Undotree
 nnoremap <F5> :UndotreeToggle<CR>
 if has("persistent_undo")
-  set undodir=~/.vim/tmp/undodir
+  set undodir=~/.vim/tmp/undodir/nvim
   set undofile
 endif
 
@@ -46,8 +46,8 @@ set wildmenu                      " show options as list when switching buffers 
 set wildmode=longest:full,full    " shell-like autocomplete to unambiguous portion
 set history=1000                  " longer search and command history (default is 20)
 set scrolloff=3                   " start scrolling 3 lines before edge of viewport
-set backupdir=~/.vim/tmp/backup,. " keep backup files out of the way
-set directory=~/.vim/tmp/swap,.   " keep swap files out of the way
+set backupdir=~/.vim/tmp/backup_nvim,. " keep backup files out of the way
+set directory=~/.vim/tmp/swap_nvim,.   " keep swap files out of the way
 set ttimeoutlen=50                " speed up O etc in the Terminal
 set virtualedit=block             " allow cursor to move where there is no text in visual block mode
 set showmatch                     " show matching brackets

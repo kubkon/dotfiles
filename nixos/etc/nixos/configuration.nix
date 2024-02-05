@@ -4,7 +4,9 @@
 
 { config, pkgs, ... }:
 
-{
+let 
+  unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+in {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
@@ -128,6 +130,12 @@
     pkgs.amdvlk
   ];
 
+  # Enable scanners
+  hardware.sane = {
+    enable = true;
+    extraBackends = [ pkgs.sane-airscan ];
+  };
+
   # Enable touchpad support (enabled default in most desktopManager).
   services.xserver.libinput = {
     enable = true;
@@ -136,14 +144,14 @@
     };
   };
 
-  programs.zsh.enable = true;
+  programs.fish.enable = true;
 
   users.mutableUsers = false;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kubkon = {
     isNormalUser = true;
-    shell = pkgs.zsh;
-    extraGroups = [ "wheel" "networkmanager" ];
+    shell = pkgs.fish;
+    extraGroups = [ "wheel" "networkmanager" "scanner" "lp" "libvirtd" ];
     hashedPassword = "deadbeef";
     openssh.authorizedKeys.keys = [
       "deadbeef"
@@ -153,6 +161,9 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.packageOverrides = pkgs: {
+    xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
+  };
   environment.systemPackages = with pkgs; [
     man-pages
     man-pages-posix
@@ -160,14 +171,13 @@
     wget
     thunderbird
     firefox
-    tmux
     nodejs
     ripgrep
     fzf
     libreoffice
     gimp
     signal-desktop
-    zsh
+    fish
     starship
     kitty
     i3lock
@@ -176,7 +186,7 @@
     autorandr
     htop
     obs-studio
-    discord
+    unstable.discord
     file
     chromium
     vlc
@@ -196,7 +206,15 @@
     ifuse
     vscode
     mullvad-vpn
+    xsaneGimp
+    wireshark
+    virt-manager
+    qemu_full
+    python3
   ];
+
+  virtualisation.libvirtd.enable = true;
+  programs.dconf.enable = true;
 
   fonts.fonts = with pkgs; [
     nerdfonts
