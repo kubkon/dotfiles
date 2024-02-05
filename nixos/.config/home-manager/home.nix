@@ -23,9 +23,9 @@
 
   xsession = {
     enable = true;
-    initExtra = ''
-      xset r rate 190 35
-    '';
+    # initExtra = ''
+    #   xset r rate 190 35
+    # '';
   };
 
   programs = {
@@ -33,32 +33,29 @@
       enable = true;
       font.name = "DejaVuSansMono Nerd Font Mono";
       font.size = 10;
+      keybindings = {
+        "ctrl+shift+[" = "prev_tab";
+        "ctrl+shift+]" = "next_tab";
+      };
       extraConfig = builtins.readFile ./default.conf ;
     };
 
-    zsh = {
+    fish = {
       enable = true;
-      enableAutosuggestions = true;
-      defaultKeymap = "emacs";
-      enableSyntaxHighlighting = true;
-      # initExtra = "export PATH=$PATH:~/bin";
-    };
-
-    starship = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-
-    fzf = {
-      enable = true;
-      enableZshIntegration = true;
-    };
-
-    tmux = {
-      enable = true;
-      terminal = "screen-256color";
-      historyLimit = 5000;
-      escapeTime = 0;
+      interactiveShellInit = ''
+        set fish_greeting # Disable greeting
+      '';
+      plugins = [
+        {
+          name = "bobthefish";
+          src = pkgs.fetchFromGitHub {
+            owner = "oh-my-fish";
+            repo = "theme-bobthefish";
+            rev = "06ebe3b9af9af2e30f104b0956e255ca42ed5cab";
+            sha256 = "7G0QSCwZYxNguUot0IVdzbCRFK/6l7WSRIBPOHo3gR0=";
+          };
+        }
+      ];
     };
 
     git = {
