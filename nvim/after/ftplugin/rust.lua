@@ -8,3 +8,4 @@ vim.keymap.set(
   end,
   { silent = true, buffer = bufnr }
 )
+vim.g.rustfmt_autosave = 1

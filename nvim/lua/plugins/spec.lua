@@ -43,6 +43,7 @@ return {
   },
   {
     'ziglang/zig.vim',
+    'rust-lang/rust.vim',
   },
   {
     'tpope/vim-commentary',
