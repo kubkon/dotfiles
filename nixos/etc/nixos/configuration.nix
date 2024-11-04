@@ -6,33 +6,46 @@
 
 let 
   unstable = import <nixos-unstable> { config = { allowUnfree = true; }; };
+  nixvim = import (builtins.fetchGit {
+    url = "https://github.com/nix-community/nixvim";
+    ref = "nixos-24.05";
+  });
 in {
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./modules/yubikey.nix
-      ./apps/vim
+      nixvim.nixosModules.nixvim
     ];
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # boot.kernelPackages = pkgs.linuxPackages_5_15;
   boot.extraModulePackages = with config.boot.kernelPackages; [
-    tuxedo-keyboard
     rr-zen_workaround
   ];
   boot.kernelModules = [
-    "tuxedo_keyboard" 
     "zen_workaround"
   ];
   boot.supportedFilesystems = [ "ntfs" "jfs" ];
   boot.initrd.kernelModules = [ "amdgpu" ];
+  
+  hardware.tuxedo-keyboard.enable = true;
+  boot.kernelParams = [
+    "xhci_hcd.quirks=1073741824"
+  ];
 
   # RR the perf!
   boot.kernel.sysctl = {
     "kernel.perf_event_paranoid" = 1;
   };
+
+  services.logind.extraConfig = ''
+    HandleLidSwitch=ignore
+  '';
 
   networking.hostName = "kurosaki"; # Define your hostname.
   networking.wireless.enable = false;
@@ -84,14 +97,18 @@ in {
   };
 
   # Configure keymap in X11
-  services.xserver.layout = "us,us";
-  services.xserver.xkbVariant = "colemak,";
-  services.xserver.xkbOptions = "grp:win_space_toggle,caps:escape";
+  # services.xserver.layout = "us,us";
+  services.xserver.xkb.layout = "us,us";
+  # services.xserver.xkbVariant = "colemak,";
+  services.xserver.xkb.variant = "colemak,";
+  # services.xserver.xkbOptions = "grp:win_space_toggle,caps:escape";
+  services.xserver.xkb.options = "grp:win_space_toggle,caps:escape";
   # Enable CUPS to print documents.
   services.printing.enable = true;
   services.avahi = {
     enable = true;
-    nssmdns = true;
+    # nssmdns = true;
+    nssmdns4 = true;
   };
 
   # Enable sound
@@ -137,7 +154,8 @@ in {
   };
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput = {
+  # services.xserver.libinput = {
+  services.libinput = {
     enable = true;
     touchpad = {
       naturalScrolling = true;
@@ -145,6 +163,197 @@ in {
   };
 
   programs.fish.enable = true;
+  programs.nixvim = {
+    enable = true;
+
+    globals.mapleader = " ";
+
+    keymaps = [
+      {
+        mode = "n";
+        key = "<CR>";
+        options.silent = true;
+        action = ":nohlsearch<CR>";
+      }
+      # Telescope config
+      {
+        key = "<leader>ff";
+        action = "<cmd>Telescope find_files<CR>";
+      }
+      {
+        key = "<leader>fg";
+        action = "<cmd>Telescope live_grep<CR>";
+      }
+      {
+        key = "<leader>fb";
+        action = "<cmd>Telescope buffers<CR>";
+      }
+      {
+        key = "<leader>fh";
+        action = "<cmd>Telescope help_tags<CR>";
+      }
+    ];
+
+    opts = {
+      number = true;
+      relativenumber = true;
+      expandtab = true;
+      shiftwidth = 2;
+    };
+
+    colorschemes.tokyonight.enable = true;
+
+    plugins = {
+      telescope = {
+        enable = true;
+        extensions = {
+          fzf-native = {
+            enable = true;
+          };
+        };
+      };
+      
+      lsp = {
+        enable = true;
+          servers = {
+          zls.enable = true;
+          rust-analyzer = {
+            enable = true;
+            installRustc = true;
+            installCargo = true;
+          };
+        };
+      };
+
+      cmp = {
+        enable = true;
+        settings = {
+          completion = {
+            completeopt = "menu,menuone,noinsert";
+          };
+          autoEnableSources = true;
+          experimental = { ghost_text = true; };
+          performance = {
+            debounce = 60;
+            fetchingTimeout = 200;
+            maxViewEntries = 30;
+          };
+          formatting = { fields = [ "kind" "abbr" "menu" ]; };
+          sources = [
+            { name = "nvim_lsp"; }
+            { name = "emoji"; }
+            {
+              name = "buffer"; # text within current buffer
+              option.get_bufnrs.__raw = "vim.api.nvim_list_bufs";
+              keywordLength = 3;
+            }
+            {
+              name = "path"; # file system paths
+              keywordLength = 3;
+            }
+          ];
+
+          window = {
+            completion = { border = "solid"; };
+            documentation = { border = "solid"; };
+          };
+
+          mapping = {
+            "<Tab>" = "cmp.mapping(cmp.mapping.select_next_item(), {'i', 's'})";
+            "<C-j>" = "cmp.mapping.select_next_item()";
+            "<C-k>" = "cmp.mapping.select_prev_item()";
+            "<C-e>" = "cmp.mapping.abort()";
+            "<C-b>" = "cmp.mapping.scroll_docs(-4)";
+            "<C-f>" = "cmp.mapping.scroll_docs(4)";
+            "<C-Space>" = "cmp.mapping.complete()";
+            "<CR>" = "cmp.mapping.confirm({ select = true })";
+            "<S-CR>" = "cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = true })";
+          };
+        };
+      };
+      cmp-nvim-lsp.enable = true;
+      cmp-path.enable = true;
+      cmp-buffer.enable = true;
+
+      lualine.enable = true;
+      bufferline.enable = true;
+      treesitter.enable = true;
+      commentary.enable = true;
+      zig.enable = true;
+    };
+
+    extraConfigLuaPre = ''
+      if vim.g.have_nerd_font then
+        require('nvim-web-devicons').setup {}
+      end
+    '';
+
+    extraConfigLua = ''
+      -- LSP Diagnostics Options Setup 
+      local sign = function(opts)
+        vim.fn.sign_define(opts.name, {
+          texthl = opts.name,
+          text = opts.text,
+          numhl = ""
+        })
+      end
+
+      sign({ name = 'DiagnosticSignError', text = '' })
+      sign({ name = 'DiagnosticSignWarn', text = '' })
+      sign({ name = 'DiagnosticSignHint', text = '' })
+      sign({ name = 'DiagnosticSignInfo', text = '' })
+
+      vim.diagnostic.config({
+          virtual_text = false,
+          signs = true,
+          update_in_insert = true,
+          underline = true,
+          severity_sort = false,
+          float = {
+              border = 'rounded',
+              source = 'always',
+              header = "",
+              prefix = "",
+          },
+      })
+
+      vim.cmd([[
+      set signcolumn=yes
+      autocmd CursorHold * lua vim.diagnostic.open_float(nil, { focusable = false })
+      ]])
+
+      -- Use LspAttach autocommand to only map the following keys
+      -- after the language server attaches to the current buffer
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+        callback = function(ev)
+          -- Enable completion triggered by <c-x><c-o>
+          vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+          -- Buffer local mappings.
+          -- See `:help vim.lsp.*` for documentation on any of the below functions
+          local opts = { buffer = ev.buf }
+          vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
+          vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
+          vim.keymap.set('n', 'K', vim.lsp.buf.hover, opts)
+          vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
+          vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, opts)
+          vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, opts)
+          vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, opts)
+          vim.keymap.set('n', '<space>wl', function()
+            print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+          end, opts)
+          vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, opts)
+          vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, opts)
+          vim.keymap.set({ 'n', 'v' }, '<space>ca', vim.lsp.buf.code_action, opts)
+          vim.keymap.set('n', 'gr', vim.lsp.buf.references, opts)
+          vim.keymap.set('n', '<space>f', function()
+            vim.lsp.buf.format { async = true }
+          end, opts)
+        end,
+      })
+    '';
+  };
 
   users.mutableUsers = false;
   # Define a user account. Don't forget to set a password with ‘passwd’.
@@ -164,6 +373,7 @@ in {
   nixpkgs.config.packageOverrides = pkgs: {
     xsaneGimp = pkgs.xsane.override { gimpSupport = true; };
   };
+  environment.localBinInPath = true;
   environment.systemPackages = with pkgs; [
     man-pages
     man-pages-posix
@@ -205,18 +415,20 @@ in {
     libimobiledevice
     ifuse
     vscode
-    mullvad-vpn
     xsaneGimp
     wireshark
     virt-manager
     qemu_full
     python3
+    irssi
   ];
 
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
 
-  fonts.fonts = with pkgs; [
+  environment.stub-ld.enable = false;
+
+  fonts.packages = with pkgs; [
     nerdfonts
   ];
 
@@ -230,12 +442,10 @@ in {
 
   # List services that you want to enable:
 
-  services.mullvad-vpn.enable = true;
-
   # Enable the OpenSSH daemon.
   services.openssh = {
     enable = true;
-    passwordAuthentication = false;
+    settings.PasswordAuthentication = false;
   };
 
   # Enable iPhone tethering
