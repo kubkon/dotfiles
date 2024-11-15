@@ -20,6 +20,7 @@
   # the Home Manager release notes for a list of state version
   # changes in each release.
   home.stateVersion = "21.11";
+  home.sessionVariables.EDITOR = "nvim";
 
   xsession = {
     enable = true;
@@ -27,6 +28,20 @@
     #   xset r rate 190 35
     # '';
   };
+
+  home.file.".ssh/allowed_signers".text =
+    "* ${builtins.readFile ~/.ssh/id_ecdsa_sk.pub}";
+
+  home.file."~/.config/ghostty".text = ''
+    font-size = 12
+    background = 282828
+    foreground = dedede
+    keybind = ctrl+d=new_split:right
+    keybind = ctrl+left_bracket=goto_split:left
+    keybind = ctrl+right_bracket=goto_split:right
+    keybind = ctrl+shift+left_bracket=previous_tab
+    keybind = ctrl+shift+right_bracket=next_tab
+  '';
 
   programs = {
     kitty = {
@@ -66,11 +81,17 @@
         init = {
           defaultBranch = "main";
         };
+        http.version = "HTTP/1.1";
         merge = {
           conflictstyle = "diff3";
           tool = "vimdiff";
           prompt = false;
         };
+        # Sign all commits using ssh key
+        commit.gpgsign = true;
+        gpg.format = "ssh";
+        gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
+        user.signingkey = "~/.ssh/id_ecdsa_sk.pub";
       };
       ignores = [
         "*.swp"
@@ -82,6 +103,11 @@
         "compile_commands.json"
         "shell.nix"
       ];
+    };
+
+    direnv = {
+      enable = true;
+      nix-direnv.enable = true;
     };
   };
 }

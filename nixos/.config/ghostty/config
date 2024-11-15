@@ -1,9 +1,0 @@
-font-size = 12
-background = 282828
-foreground = dedede
-keybind = ctrl+d=new_split:right
-keybind = ctrl+left_bracket=goto_split:left
-keybind = ctrl+right_bracket=goto_split:right
-keybind = ctrl+shift+left_bracket=previous_tab
-keybind = ctrl+shift+right_bracket=next_tab
-
