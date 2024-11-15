@@ -22,6 +22,11 @@
   home.stateVersion = "21.11";
   home.sessionVariables.EDITOR = "nvim";
 
+  home.packages = [
+    pkgs._1password
+    pkgs._1password-gui
+  ];
+
   xsession = {
     enable = true;
     # initExtra = ''
