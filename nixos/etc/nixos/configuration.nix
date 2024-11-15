@@ -215,13 +215,8 @@ in {
       
       lsp = {
         enable = true;
-          servers = {
+        servers = {
           zls.enable = true;
-          rust-analyzer = {
-            enable = true;
-            installRustc = true;
-            installCargo = true;
-          };
         };
       };
 
@@ -280,6 +275,35 @@ in {
       treesitter.enable = true;
       commentary.enable = true;
       zig.enable = true;
+
+      conform-nvim = {
+        enable = true;
+        formatOnSave = {
+          lspFallback = true;
+          timeoutMs = 500;
+        };
+        notifyOnError = false;
+        formattersByFt.rust = [ "rustfmt" ];
+      };
+
+      rustaceanvim = {
+        enable = true;
+        rustAnalyzerPackage = null;
+        settings = {
+          tools.enable_clippy = true;
+          check = {
+            command = "clippy";
+          };
+          cargo = {
+            allFeatures = true;
+          };
+          inlayHints = { 
+            lifetimeElisionHints = { 
+              enable = "always";
+            };
+          };
+        };
+      };
     };
 
     extraConfigLuaPre = ''
@@ -298,10 +322,10 @@ in {
         })
       end
 
-      sign({ name = 'DiagnosticSignError', text = '' })
-      sign({ name = 'DiagnosticSignWarn', text = '' })
-      sign({ name = 'DiagnosticSignHint', text = '' })
-      sign({ name = 'DiagnosticSignInfo', text = '' })
+      sign({ name = 'DiagnosticSignError', text = ' ' })
+      sign({ name = 'DiagnosticSignWarn', text = ' ' })
+      sign({ name = 'DiagnosticSignHint', text = '󰌶 ' })
+      sign({ name = 'DiagnosticSignInfo', text = ' ' })
 
       vim.diagnostic.config({
           virtual_text = false,
@@ -355,11 +379,11 @@ in {
     '';
   };
 
+  users.defaultUserShell = pkgs.fish;
   users.mutableUsers = false;
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.kubkon = {
     isNormalUser = true;
-    shell = pkgs.fish;
     extraGroups = [ "wheel" "networkmanager" "scanner" "lp" "libvirtd" ];
     hashedPassword = "deadbeef";
     openssh.authorizedKeys.keys = [
@@ -421,8 +445,11 @@ in {
     qemu_full
     python3
     irssi
+    yubikey-manager
   ];
+  environment.variables.EDITOR = "nvim";
 
+  virtualisation.spiceUSBRedirection.enable = true;
   virtualisation.libvirtd.enable = true;
   programs.dconf.enable = true;
 
