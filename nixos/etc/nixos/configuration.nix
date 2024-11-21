@@ -216,6 +216,7 @@ in {
       lsp = {
         enable = true;
         servers = {
+          eslint.enable = true;
           zls.enable = true;
         };
         keymaps = {
@@ -337,7 +338,9 @@ in {
           timeoutMs = 500;
         };
         notifyOnError = false;
-        formattersByFt.rust = [ "rustfmt" ];
+        formattersByFt = {
+          rust = [ "cargo" "fmt" ];
+        };
       };
 
       rustaceanvim = {
@@ -357,6 +360,16 @@ in {
             };
           };
         };
+      };
+
+      typescript-tools = {
+        enable = true;
+        onAttach = ''
+          function(client, bufnr)
+              client.server_capabilities.documentFormattingProvider = false
+              client.server_capabilities.documentRangeFormattingProvider = false
+          end
+        '';
       };
     };
 
@@ -433,7 +446,6 @@ in {
     qemu_full
     python3
     irssi
-    yubikey-manager
   ];
   environment.variables.EDITOR = "nvim";
 
