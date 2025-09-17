@@ -1,0 +1,63 @@
+// Zed settings
+//
+// For information on how to configure Zed, see the Zed
+// documentation: https://zed.dev/docs/configuring-zed
+//
+// To see all of Zed's default settings without changing your
+// custom settings, run `zed: open default settings` from the
+// command palette (cmd-shift-p / ctrl-shift-p)
+{
+  "ui_font_size": 14,
+  "buffer_font_size": 12,
+  "theme": {
+    "mode": "system",
+    "light": "One Light",
+    "dark": "One Dark"
+  },
+  "auto_install_extensions": {
+    "toml": true
+  },
+  "vim_mode": true,
+  "helix_mode": true,
+  "vim": {
+    "default_mode": "helix_normal"
+  },
+  "inlay_hints": {
+    "enabled": true
+  },
+  "lsp": {
+    "rust-analyzer": {
+      "initialization_options": {
+        "check": {
+          "workspace": false
+        },
+        "closureReturnTypeHints": {
+          "enabled": true
+        },
+        "lifetimeHints": {
+          "enabled": "skip_trivial",
+          "useParameterName": true
+        },
+        "maxLength": null
+      }
+    }
+  },
+  "languages": {
+    "Zig": {
+      "format_on_save": "language_server",
+      "language_servers": ["zls"]
+    }
+  },
+  "agent": {
+    "enabled": true
+  },
+  "audio": {
+    "experimental.rodio_audio": false
+  },
+  "terminal": {
+    "dock": "bottom",
+    "env": {
+      "GIT_EDITOR": "zed --wait"
+    }
+  }
+}
