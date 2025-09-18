@@ -1,0 +1,21 @@
+theme = "tokyonight"
+
+[editor]
+bufferline = "multiple"
+end-of-line-diagnostics = "disable"
+
+[editor.inline-diagnostics]
+cursor-line = "hint"
+
+[editor.statusline]
+left = ["mode", "spinner", "spacer", "diagnostics", "file-name", "separator", "spacer", "version-control"]
+right = ["file-type", "file-encoding", "file-line-ending", "position", "position-percentage", "total-line-numbers"]
+separator = "⌥"
+
+[editor.cursor-shape]
+normal = "block"
+insert = "bar"
+select = "underline"
+
+[editor.lsp]
+display-inlay-hints = true
